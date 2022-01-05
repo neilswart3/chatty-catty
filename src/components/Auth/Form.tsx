@@ -4,6 +4,8 @@ import { User } from 'firebase/auth'
 import { LocalStorageVariables } from 'src/lib/utils'
 import { AuthFactory } from 'src/lib/factories'
 import Styled from './styles'
+import { useAppDispatch } from 'src/store/hooks'
+import { authRequest } from 'src/store/auth'
 
 const initValues = {
   email: '',
@@ -21,6 +23,7 @@ interface Values {
 
 const Form: React.FC<Props> = ({ form }) => {
   const [values, setValues] = useState<Values>(initValues)
+  const dispatch = useAppDispatch()
 
   const handleChange = (e: any): void => {
     const { name, value } = e.target
@@ -31,32 +34,34 @@ const Form: React.FC<Props> = ({ form }) => {
     }))
   }
 
-  const handleSubmit = async (e: any): Promise<void> => {
+  const handleSubmit = (e: any): void => {
     e.preventDefault()
 
     const { email, password } = values
 
-    if (form === 'register') {
-      try {
-        const user = await AuthFactory.createUser({ email, password })
+    dispatch(authRequest({ form, email, password }))
 
-        console.log('user:', user)
+    // if (form === 'register') {
+    //   try {
+    //     const user = await AuthFactory.createUser({ email, password })
 
-        LocalStorageVariables.setUser(user as User)
-      } catch (error) {
-        console.log('error:', error)
-      }
-    } else {
-      try {
-        const user = await AuthFactory.signInUser({ email, password })
+    //     console.log('user:', user)
 
-        console.log('user:', user)
+    //     LocalStorageVariables.setUser(user as User)
+    //   } catch (error) {
+    //     console.log('error:', error)
+    //   }
+    // } else {
+    //   try {
+    //     const user = await AuthFactory.signInUser({ email, password })
 
-        LocalStorageVariables.setUser(user as User)
-      } catch (error) {
-        console.log('error:', error)
-      }
-    }
+    //     console.log('user:', user)
+
+    //     LocalStorageVariables.setUser(user as User)
+    //   } catch (error) {
+    //     console.log('error:', error)
+    //   }
+    // }
   }
 
   return (
