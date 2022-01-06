@@ -1,3 +1,4 @@
+import { PayloadAction } from '@reduxjs/toolkit'
 import {
   AuthFailedPayload,
   AuthRequestPayload,
@@ -7,7 +8,7 @@ import {
 
 export const authRequest = (
   state: AuthState,
-  _action: AuthRequestPayload
+  _action: PayloadAction<AuthRequestPayload>
 ): AuthState => ({
   ...state,
   error: null,
@@ -16,7 +17,7 @@ export const authRequest = (
 
 export const authFailed = (
   state: AuthState,
-  { payload }: AuthFailedPayload
+  { payload }: PayloadAction<AuthFailedPayload>
 ): AuthState => ({
   ...state,
   isLoading: false,
@@ -25,7 +26,7 @@ export const authFailed = (
 
 export const authSuccess = (
   state: AuthState,
-  { payload }: AuthSuccessPayload
+  { payload }: PayloadAction<AuthSuccessPayload>
 ): AuthState => ({
   ...state,
   isLoading: false,
