@@ -1,7 +1,8 @@
 import { call, put, takeEvery } from 'redux-saga/effects'
 import { AuthFactory } from 'src/lib/factories'
 import { LocalStorageVariables } from 'src/lib/utils'
-import { authFailed, authSuccess } from '.'
+import { authFailed } from '.'
+import { hydrateRequest } from '../hydrate'
 import { AuthRequest, authTypes } from './types'
 
 function* handleAuth({ payload }: AuthRequest): any {
@@ -28,7 +29,7 @@ function* handleAuth({ payload }: AuthRequest): any {
 
     LocalStorageVariables.setUser(data)
 
-    yield put(authSuccess({ data }))
+    yield put(hydrateRequest())
   } catch (err) {
     const error = err as unknown as Error
 

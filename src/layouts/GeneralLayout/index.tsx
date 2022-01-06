@@ -1,3 +1,5 @@
+import { CircularProgress } from '@mui/material'
+import { useAppSelector } from 'src/store/hooks'
 import Styled from './styles'
 
 interface Props {
@@ -9,9 +11,11 @@ const GeneralLayout: React.FC<Props> = ({
   children,
   className = 'GeneralLayout',
 }) => {
+  const { isLoading } = useAppSelector(({ hydrate }) => hydrate)
+
   return (
     <Styled.GeneralLayout className={className}>
-      {children}
+      {isLoading ? <CircularProgress /> : children}
     </Styled.GeneralLayout>
   )
 }
