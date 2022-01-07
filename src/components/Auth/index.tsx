@@ -1,5 +1,6 @@
 import { Button, ButtonGroup } from '@mui/material'
 import React, { useState } from 'react'
+import { SignOut } from 'src/atoms'
 import Form from './Form'
 import Styled from './styles'
 
@@ -10,6 +11,7 @@ const Auth: React.FC = () => {
 
   return (
     <Styled.Auth>
+      <SignOut />
       <ButtonGroup variant='contained' color='secondary'>
         <Button onClick={() => setForm('login')}>Login</Button>
         <Button onClick={() => setForm('register')}>Register</Button>

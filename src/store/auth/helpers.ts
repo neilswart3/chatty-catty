@@ -6,6 +6,18 @@ import {
   AuthSuccessPayload,
 } from './types'
 
+export const initialState: AuthState = {
+  data: {
+    uid: null,
+    accessToken: null,
+    displayName: null,
+    email: null,
+    photoUrl: null,
+  },
+  isLoading: false,
+  error: null,
+}
+
 export const authRequest = (
   state: AuthState,
   _action: PayloadAction<AuthRequestPayload>
@@ -31,4 +43,13 @@ export const authSuccess = (
   ...state,
   isLoading: false,
   data: payload.data,
+})
+
+export const authSignOutRequest = (state: AuthState): AuthState => ({
+  ...state,
+  isLoading: true,
+})
+
+export const authSignOutSuccess = (): AuthState => ({
+  ...initialState,
 })

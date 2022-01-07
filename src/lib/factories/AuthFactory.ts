@@ -1,6 +1,7 @@
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  signOut,
   User,
 } from 'firebase/auth'
 import { auth } from 'src/lib/firebase'
@@ -35,6 +36,16 @@ class AuthFactory {
       const data = await signInWithEmailAndPassword(auth, email, password)
 
       return data.user
+    } catch (err) {
+      const error = parseFirebaseError(err as Error)
+
+      throw new Error(error)
+    }
+  }
+
+  static async signOutUser(): Promise<void> {
+    try {
+      await signOut(auth)
     } catch (err) {
       const error = parseFirebaseError(err as Error)
 

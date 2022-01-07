@@ -1,7 +1,7 @@
-import { call, put, takeEvery } from 'redux-saga/effects'
+import { call, put, takeLatest } from 'redux-saga/effects'
 import { AuthFactory } from 'src/lib/factories'
 import { LocalStorageVariables } from 'src/lib/utils'
-import { authFailed } from '.'
+import { authFailed, authSignOutSuccess } from '.'
 import { hydrateRequest } from '../hydrate'
 import { AuthRequest, authTypes } from './types'
 
@@ -37,6 +37,21 @@ function* handleAuth({ payload }: AuthRequest): any {
   }
 }
 
+function* handleSignOut(): any {
+  try {
+    yield call(AuthFactory.signOutUser)
+
+    LocalStorageVariables.removeUser()
+
+    yield put(authSignOutSuccess())
+  } catch (err) {
+    const error = err as unknown as Error
+
+    yield put(authFailed({ error: error.message }))
+  }
+}
+
 export function* authWatcher() {
-  yield takeEvery(authTypes.AUTH_REQUEST, handleAuth)
+  yield takeLatest(authTypes.AUTH_REQUEST, handleAuth)
+  yield takeLatest(authTypes.AUTH_SIGNOUT_REQUEST, handleSignOut)
 }

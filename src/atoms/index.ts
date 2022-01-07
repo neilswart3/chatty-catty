@@ -1,3 +1,3 @@
-const atom = "atom";
+import SignOut from './SignOut'
 
-export { atom };
+export { SignOut }

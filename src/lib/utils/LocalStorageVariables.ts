@@ -19,6 +19,10 @@ class LocalStorageVariables {
 
     return decode(userEncoded) as AuthUser
   }
+
+  static removeUser(): void {
+    globalThis.localStorage.removeItem(this.userVar)
+  }
 }
 
 export default LocalStorageVariables

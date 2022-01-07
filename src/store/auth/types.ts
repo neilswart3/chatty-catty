@@ -30,6 +30,8 @@ export enum authTypes {
   AUTH_REQUEST = 'auth/authRequest',
   AUTH_FAILED = 'auth/authFailed',
   AUTH_SUCCESS = 'auth/authSuccess',
+  AUTH_SIGNOUT_REQUEST = 'auth/authSignOutRequest',
+  AUTH_SIGNOUT_SUCCESS = 'auth/authSignOutSuccess',
 }
 
 export interface AuthRequest {
