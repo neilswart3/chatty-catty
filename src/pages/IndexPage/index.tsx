@@ -5,7 +5,7 @@ import { useAppSelector } from 'src/store/hooks'
 import Styled from './styles'
 
 const IndexPage: React.FC = () => {
-  const { data, isLoading, error } = useAppSelector(({ auth }) => auth)
+  const { data } = useAppSelector(({ auth }) => auth)
 
   return (
     <Styled.Index>

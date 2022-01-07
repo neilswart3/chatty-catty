@@ -1,4 +1,6 @@
 import { CircularProgress } from '@mui/material'
+import { useEffect } from 'react'
+import { useNavigate } from 'react-router-dom'
 import { useAppSelector } from 'src/store/hooks'
 import Styled from './styles'
 
@@ -11,11 +13,25 @@ const GeneralLayout: React.FC<Props> = ({
   children,
   className = 'GeneralLayout',
 }) => {
-  const { isLoading } = useAppSelector(({ hydrate }) => hydrate)
+  const {
+    data: authData,
+    isLoading: isAuthLoading,
+    error: authError,
+  } = useAppSelector(({ auth }) => auth)
+  const { isLoading: isHydrateLoading } = useAppSelector(
+    ({ hydrate }) => hydrate
+  )
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (!isHydrateLoading && !authData.accessToken) {
+      navigate('/')
+    }
+  }, [authData, isHydrateLoading, navigate])
 
   return (
     <Styled.GeneralLayout className={className}>
-      {isLoading ? <CircularProgress /> : children}
+      {isHydrateLoading ? <CircularProgress /> : children}
     </Styled.GeneralLayout>
   )
 }
