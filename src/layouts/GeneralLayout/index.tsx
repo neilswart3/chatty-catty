@@ -1,6 +1,7 @@
 import { CircularProgress } from '@mui/material'
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { Auth } from 'src/components'
 import { useAppSelector } from 'src/store/hooks'
 import Styled from './styles'
 
@@ -9,19 +10,15 @@ interface Props {
   className?: string
 }
 
-const GeneralLayout: React.FC<Props> = ({
-  children,
-  className = 'GeneralLayout',
-}) => {
-  const {
-    data: authData,
-    isLoading: isAuthLoading,
-    error: authError,
-  } = useAppSelector(({ auth }) => auth)
+const GeneralLayout: React.FC<Props> = props => {
+  const { children, className = 'GeneralLayout' } = props
+  const navigate = useNavigate()
+  const { data: authData, isLoading: isAuthLoading } = useAppSelector(
+    ({ auth }) => auth
+  )
   const { isLoading: isHydrateLoading } = useAppSelector(
     ({ hydrate }) => hydrate
   )
-  const navigate = useNavigate()
 
   useEffect(() => {
     if (!isHydrateLoading && !authData.accessToken) {
@@ -29,9 +26,17 @@ const GeneralLayout: React.FC<Props> = ({
     }
   }, [authData, isHydrateLoading, navigate])
 
+  if (isHydrateLoading || isAuthLoading) {
+    return (
+      <Styled.GeneralLayout className={className}>
+        <CircularProgress />
+      </Styled.GeneralLayout>
+    )
+  }
+
   return (
     <Styled.GeneralLayout className={className}>
-      {isHydrateLoading ? <CircularProgress /> : children}
+      {authData.accessToken ? children : <Auth />}
     </Styled.GeneralLayout>
   )
 }
