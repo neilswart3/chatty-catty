@@ -8,11 +8,11 @@ import {
 
 export const initialState: AuthState = {
   data: {
-    uid: null,
-    accessToken: null,
-    displayName: null,
-    email: null,
-    photoUrl: null,
+    uid: '',
+    accessToken: '',
+    displayName: '',
+    email: '',
+    photoUrl: '',
   },
   isLoading: false,
   error: null,

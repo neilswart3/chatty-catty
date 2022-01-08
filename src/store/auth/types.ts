@@ -1,9 +1,9 @@
 export interface AuthUser {
-  uid: string | null
-  accessToken: string | null
-  displayName: string | null
-  email: string | null
-  photoUrl: string | null
+  uid: string
+  accessToken: string
+  displayName: string
+  email: string
+  photoUrl: string
 }
 
 export interface AuthState {

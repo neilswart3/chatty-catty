@@ -1,5 +1,5 @@
 import { call, put, takeLatest } from 'redux-saga/effects'
-import { AuthFactory } from 'src/lib/factories'
+import { AuthFactory, UserFactory } from 'src/lib/factories'
 import { LocalStorageVariables } from 'src/lib/utils'
 import { authFailed, authSignOutSuccess } from '.'
 import { hydrateRequest } from '../hydrate'
@@ -19,19 +19,24 @@ function* handleAuth({ payload }: AuthRequest): any {
 
     const { accessToken, uid, displayName, email: authEmail, photoUrl } = res
 
-    const data = {
+    const user = {
       accessToken,
       uid,
-      displayName,
+      displayName: displayName || '',
       email: authEmail,
-      photoUrl,
+      photoUrl: photoUrl || '',
     }
 
-    LocalStorageVariables.setUser(data)
+    if (form === 'register') {
+      yield call(UserFactory.createUser, user)
+    }
 
+    LocalStorageVariables.setUser(user)
     yield put(hydrateRequest())
   } catch (err) {
     const error = err as unknown as Error
+
+    console.log('error:', error)
 
     yield put(authFailed({ error: error.message }))
   }
