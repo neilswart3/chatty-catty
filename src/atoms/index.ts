@@ -1,3 +1,4 @@
+import Fab from './Fab'
 import SignOut from './SignOut'
 
-export { SignOut }
+export { Fab, SignOut }

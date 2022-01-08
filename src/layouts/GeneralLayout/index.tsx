@@ -1,6 +1,7 @@
 import { CircularProgress } from '@mui/material'
 import { useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
+import { Fab } from 'src/atoms'
 import { Auth } from 'src/components'
 import { useAppSelector } from 'src/store/hooks'
 import Styled from './styles'
@@ -37,6 +38,7 @@ const GeneralLayout: React.FC<Props> = props => {
   return (
     <Styled.GeneralLayout className={className}>
       {authData.accessToken ? children : <Auth />}
+      {authData.accessToken && <Fab path='/new' icon='chat' />}
     </Styled.GeneralLayout>
   )
 }
